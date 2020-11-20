@@ -29,8 +29,8 @@ public class BombermanGame extends Application {
 
     private GraphicsContext gc;
     private Canvas canvas;
-    private final List<Entity> entities = new ArrayList<>();
-//    private List<Entity> stillObjects = new ArrayList<>();
+    public static final List<Entity> entities = new ArrayList<>();
+    public static int[][] idObjects = new int[WIDTH][HEIGHT];
 
     public static Entity player;
     private int frame = 1;
@@ -114,6 +114,7 @@ public class BombermanGame extends Application {
 
                     for (int j = 0; j < _width; j++) {
                         int s = Integer.parseInt(tokenTile.nextToken());
+                        idObjects[j][i] = s;
                         Entity entity;
                         switch (s) {
                             case 1:
@@ -130,7 +131,6 @@ public class BombermanGame extends Application {
 
                         }
                         entities.add(entity);
-//                        stillObjects.add(entity);
                     }
                 }
             }
@@ -145,7 +145,6 @@ public class BombermanGame extends Application {
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-//        stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
     }
 }
