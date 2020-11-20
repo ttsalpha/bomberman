@@ -32,8 +32,9 @@ public class BombermanGame extends Application {
 //    private List<Entity> stillObjects = new ArrayList<>();
 
     private Entity player;
-    private int num = 1;
+    private int frame = 1;
     private final int isMove = 16;
+    private int down_swap = 1;
 
 
     public static void main(String[] args) {
@@ -56,9 +57,6 @@ public class BombermanGame extends Application {
                     case UP:
                         break;
                     case DOWN:
-                        System.out.println("Down");
-//                        isMove = player.getY();
-                        System.out.println(isMove);
                         down();
                         break;
                     case LEFT:
@@ -81,8 +79,8 @@ public class BombermanGame extends Application {
             public void handle(long l) {
                 render();
                 update();
-                System.out.println("frame " + num);
-                num++;
+//                System.out.println("frame " + frame);
+                frame++;
             }
         };
         timer.start();
@@ -159,9 +157,20 @@ public class BombermanGame extends Application {
 //    }
 
     public void down() {
-//        isMove = isMove + 1;
-//        if (isMove < 20) {
-            player.setY(player.getY() + isMove);
-//        } else isMove = 0;
+        System.out.println("Down");
+        System.out.println(player.getY());
+        if (player.getY() % 16 == 0) {
+            if (down_swap == 1) {
+                player.setImg(Sprite.player_down_2.getFxImage());
+                down_swap = 2;
+            } else if (down_swap == 2) {
+                player.setImg(Sprite.player_down.getFxImage());
+                down_swap = 3;
+            } else {
+                player.setImg(Sprite.player_down_1.getFxImage());
+                down_swap = 1;
+            }
+        }
+        player.setY(player.getY() + isMove);
     }
 }
