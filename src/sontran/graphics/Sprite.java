@@ -1,9 +1,6 @@
-package uet.oop.bomberman.graphics;
+package sontran.graphics;
 
 import javafx.scene.image.*;
-
-import java.awt.image.BufferedImage;
-import java.nio.IntBuffer;
 
 public class Sprite {
 

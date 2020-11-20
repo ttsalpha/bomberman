@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package sontran;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -9,8 +9,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.*;
-import uet.oop.bomberman.graphics.Sprite;
+import sontran.control.Move;
+import sontran.entities.*;
+import sontran.graphics.Sprite;
 
 import java.io.File;
 import java.io.FileReader;
@@ -31,10 +32,8 @@ public class BombermanGame extends Application {
     private final List<Entity> entities = new ArrayList<>();
 //    private List<Entity> stillObjects = new ArrayList<>();
 
-    private Entity player;
+    public static Entity player;
     private int frame = 1;
-    private final int isMove = 16;
-    private int down_swap = 1;
 
 
     public static void main(String[] args) {
@@ -55,13 +54,16 @@ public class BombermanGame extends Application {
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case UP:
+                        Move.up();
                         break;
                     case DOWN:
-                        down();
+                        Move.down();
                         break;
                     case LEFT:
-//                        break;
+                        Move.left();
+                        break;
                     case RIGHT:
+                        Move.right();
                         break;
 //                    case SHIFT:
 //                        running = false;
@@ -80,7 +82,7 @@ public class BombermanGame extends Application {
                 render();
                 update();
 //                System.out.println("frame " + frame);
-                frame++;
+//                frame++;
             }
         };
         timer.start();
@@ -145,32 +147,5 @@ public class BombermanGame extends Application {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 //        stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
-    }
-
-//    public void down(int x, int y) {
-//        int local = ;
-//        if (!entities.get((y + 1) * WIDTH + x).equals(Sprite.grass)) {
-//            Entity down = new Bomber(y + 1, x, Sprite.player_down_1.getFxImage());
-//            player = down;
-//        player.setY(player.getY() + 2 * 16);
-//        }
-//    }
-
-    public void down() {
-        System.out.println("Down");
-        System.out.println(player.getY());
-        if (player.getY() % 16 == 0) {
-            if (down_swap == 1) {
-                player.setImg(Sprite.player_down_2.getFxImage());
-                down_swap = 2;
-            } else if (down_swap == 2) {
-                player.setImg(Sprite.player_down.getFxImage());
-                down_swap = 3;
-            } else {
-                player.setImg(Sprite.player_down_1.getFxImage());
-                down_swap = 1;
-            }
-        }
-        player.setY(player.getY() + isMove);
     }
 }

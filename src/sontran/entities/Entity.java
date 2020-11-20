@@ -1,8 +1,8 @@
-package uet.oop.bomberman.entities;
+package sontran.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.graphics.Sprite;
+import sontran.graphics.Sprite;
 
 public abstract class Entity {
     protected int x;
