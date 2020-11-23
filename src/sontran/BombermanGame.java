@@ -2,13 +2,12 @@ package sontran;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import sontran.control.Explosion;
 import sontran.control.Move;
 import sontran.entities.*;
 import sontran.graphics.Sprite;
@@ -21,6 +20,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import static sontran.control.Move.countToRun;
+
 
 public class BombermanGame extends Application {
 
@@ -31,9 +32,14 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static final List<Entity> entities = new ArrayList<>();
     public static int[][] idObjects = new int[WIDTH][HEIGHT];
-
     public static Entity player;
+
     private int frame = 1;
+    private int fps = 0;
+    private long lastTime;
+    private double delta = 0;
+
+    private static Stage mainStage = null;
 
 
     public static void main(String[] args) {
@@ -49,40 +55,47 @@ public class BombermanGame extends Application {
 
         Scene scene = new Scene(root);
 
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case UP:
-                        Move.up();
-                        break;
-                    case DOWN:
-                        Move.down();
-                        break;
-                    case LEFT:
-                        Move.left();
-                        break;
-                    case RIGHT:
-                        Move.right();
-                        break;
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:
+                    Move.up();
+                    break;
+                case DOWN:
+                    Move.down();
+                    break;
+                case LEFT:
+                    Move.left();
+                    break;
+                case RIGHT:
+                    Move.right();
+                    break;
+                case SPACE:
+                    Explosion.putBomb();
+                    break;
 //                    case SHIFT:
 //                        running = false;
 //                        break;
-                }
             }
         });
 
         stage.setScene(scene);
         stage.setTitle("Bomberman from Son Tran");
-        stage.show();
+        mainStage = stage;
+        mainStage.show();
+
+        lastTime = System.currentTimeMillis();
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 render();
                 update();
-//                System.out.println("frame " + frame);
-//                frame++;
+                time();
+                countToRun++;
+                if (countToRun == 4) {
+                    Move.checkRun();
+                    countToRun = 0;
+                }
             }
         };
         timer.start();
@@ -146,5 +159,18 @@ public class BombermanGame extends Application {
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         entities.forEach(g -> g.render(gc));
+    }
+
+    public void time() {
+        final double ns = 1000000000.0 / 60.0; //nanosecond, 60 frames per second
+        canvas.requestFocus();
+        frame++;
+
+        long now = System.currentTimeMillis();
+        if (now - lastTime > 1000) {
+            lastTime = System.currentTimeMillis();
+            mainStage.setTitle("Bomberman from Son Tran | " + frame + " fps");
+            frame = 0;
+        }
     }
 }
