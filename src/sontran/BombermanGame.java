@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import sontran.control.Explosion;
 import sontran.control.Move;
 import sontran.entities.*;
 import sontran.graphics.Sprite;
@@ -70,7 +69,7 @@ public class BombermanGame extends Application {
                     Move.right();
                     break;
                 case SPACE:
-                    Explosion.putBomb();
+                    Bomb.putBomb();
                     break;
 //                    case SHIFT:
 //                        running = false;
@@ -162,8 +161,8 @@ public class BombermanGame extends Application {
     }
 
     public void time() {
-        final double ns = 1000000000.0 / 60.0; //nanosecond, 60 frames per second
-        canvas.requestFocus();
+//        final double ns = 1000000000.0 / 60.0; //nanosecond, 60 frames per second
+//        canvas.requestFocus();
         frame++;
 
         long now = System.currentTimeMillis();
