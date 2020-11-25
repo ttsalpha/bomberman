@@ -16,8 +16,6 @@ public class Blocked {
 
     public static boolean block_down() {
         local = (player.getY() / 32 + 1) * WIDTH + player.getX() / 32;
-//        local = idObjects[player.getY() / 32 + 1][player.getX() / 32];
-//        System.out.println(entities.get(local).getX() / 32 + " " + entities.get(local).getY() / 32);
         return checkBlocks(local);
     }
 
@@ -28,8 +26,6 @@ public class Blocked {
 
     public static boolean block_left() {
         local = player.getY() / 32 * WIDTH + player.getX() / 32 - 1;
-//        local = Math.round(player.getX()) / 32 - 1;
-//        local = (player.getY()) / 32 * WIDTH + Math.round(player.getX()) / 32;
         return checkBlocks(local);
     }
 

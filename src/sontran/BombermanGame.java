@@ -34,9 +34,7 @@ public class BombermanGame extends Application {
     public static Entity player;
 
     private int frame = 1;
-    private int fps = 0;
     private long lastTime;
-    private double delta = 0;
 
     private static Stage mainStage = null;
 

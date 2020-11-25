@@ -37,7 +37,7 @@ public class Move {
     }
 
     public static void down() {
-        if (player.getY() % 32 == 0) {
+        if (player.getY() % 32 == 0 && player.getX() % 32 == 0) {
             if (Blocked.block_down()) {
                 direction = "down";
                 count = 4;
@@ -65,7 +65,7 @@ public class Move {
     }
 
     public static void up() {
-        if (player.getY() % 32 == 0) {
+        if (player.getY() % 32 == 0 && player.getX() % 32 == 0){
             if (Blocked.block_up()) {
                 direction = "up";
                 count = 4;
@@ -93,7 +93,7 @@ public class Move {
     }
 
     public static void left() {
-        if (player.getX() % 32 == 0) {
+        if (player.getX() % 32 == 0 && player.getY() % 32 == 0) {
             if (Blocked.block_left()) {
                 direction = "left";
                 count = 4;
@@ -121,7 +121,7 @@ public class Move {
     }
 
     public static void right() {
-        if (player.getX() % 32 == 0) {
+        if (player.getX() % 32 == 0 && player.getY() % 32 == 0) {
             if (Blocked.block_right()) {
                 direction = "right";
                 count = 4;
