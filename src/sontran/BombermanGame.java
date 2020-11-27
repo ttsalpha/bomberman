@@ -106,9 +106,11 @@ public class BombermanGame extends Application {
 
     public void addCreature() {
         Animal enemy1 = new Ballom(4, 4, Sprite.ballom_left1.getFxImage());
-//        Animal enemy2 = new Ballom(9, 9, Sprite.ballom_left1.getFxImage());
+        Animal enemy2 = new Ballom(9, 9, Sprite.ballom_left1.getFxImage());
+        Animal enemy3 = new Ballom(22, 6, Sprite.ballom_left1.getFxImage());
         enemy.add(enemy1);
-//        enemy.add(enemy2);
+        enemy.add(enemy2);
+        enemy.add(enemy3);
     }
 
     public void createMap() {
@@ -167,10 +169,12 @@ public class BombermanGame extends Application {
             player.setCountToRun(0);
         }
 
-        enemy.get(0).setCountToRun(enemy.get(0).getCountToRun() + 1);
-        if (enemy.get(0).getCountToRun() == 8) {
-            Move.checkRun(enemy.get(0));
-            enemy.get(0).setCountToRun(0);
+        for (Animal a : enemy) {
+            a.setCountToRun(a.getCountToRun() + 1);
+            if (a.getCountToRun() == 8) {
+                Move.checkRun(a);
+                a.setCountToRun(0);
+            }
         }
     }
 

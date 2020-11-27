@@ -27,16 +27,16 @@ public class Ballom extends Animal {
             int dir = random.nextInt(4);
             switch (dir) {
                 case 0:
-                    Move.down(enemy.get(0));
+                    Move.down(this);
                     break;
                 case 1:
-                    Move.up(enemy.get(0));
+                    Move.up(this);
                     break;
                 case 2:
-                    Move.left(enemy.get(0));
+                    Move.left(this);
                     break;
                 case 3:
-                    Move.right(enemy.get(0));
+                    Move.right(this);
                     break;
             }
         }
