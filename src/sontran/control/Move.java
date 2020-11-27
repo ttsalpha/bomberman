@@ -9,6 +9,7 @@ public class Move {
 //    public static boolean running = false;
 
     private static final int isMove = 8;//jump 8 pixel
+    private static final int isMoveEnemy = 4;//jump 4 pixel
 
     private static int swap = 1;        //swap image
     private static String direction;    //direction of player
@@ -22,16 +23,16 @@ public class Move {
 
     public static void checkRun(Entity entity) {
         if (entity instanceof Bomber && count > 0) {
-            setDirection(direction, entity);
+            setDirection(direction, entity, isMove);
             count--;
         }
         if (entity instanceof Ballom && countEnemy > 0) {
-            setDirection(directionEnemy, entity);
+            setDirection(directionEnemy, entity, isMoveEnemy);
             countEnemy--;
         }
     }
 
-    private static void setDirection(String direction, Entity entity) {
+    private static void setDirection(String direction, Entity entity, int isMove) {
         switch (direction) {
             case "down":
                 down_step(entity);
@@ -61,7 +62,7 @@ public class Move {
             }
             if (entity instanceof Ballom && Blocked.block_down(entity)) {
                 directionEnemy = "down";
-                countEnemy = 4;
+                countEnemy = 8;
                 checkRun(entity);
             }
         }
@@ -109,7 +110,7 @@ public class Move {
             }
             if (entity instanceof Ballom && Blocked.block_up(entity)) {
                 directionEnemy = "up";
-                countEnemy = 4;
+                countEnemy = 8;
                 checkRun(entity);
             }
         }
@@ -157,7 +158,7 @@ public class Move {
             }
             if (entity instanceof Ballom && Blocked.block_left(entity)) {
                 directionEnemy = "left";
-                countEnemy = 4;
+                countEnemy = 8;
                 checkRun(entity);
             }
         }
@@ -205,7 +206,7 @@ public class Move {
             }
             if (entity instanceof Ballom && Blocked.block_right(entity)) {
                 directionEnemy = "right";
-                countEnemy = 4;
+                countEnemy = 88;
                 checkRun(entity);
             }
         }

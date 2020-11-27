@@ -164,7 +164,7 @@ public class BombermanGame extends Application {
         }
 
         countToRunEnemy++;
-        if (countToRunEnemy == 4) {
+        if (countToRunEnemy == 8) {
             Move.checkRun(enemy.get(0));
             countToRunEnemy = 0;
         }
