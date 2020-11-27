@@ -14,12 +14,10 @@ import sontran.graphics.Sprite;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import static sontran.control.Move.countToRun;
+import static sontran.control.Move.countToRunEnemy;
 
 
 public class BombermanGame extends Application {
@@ -32,6 +30,7 @@ public class BombermanGame extends Application {
     public static final List<Entity> entities = new ArrayList<>();
     public static int[][] idObjects = new int[WIDTH][HEIGHT];
     public static Entity player;
+    public static List<Entity> enemy = new ArrayList<>();
 
     private int frame = 1;
     private long lastTime;
@@ -55,16 +54,16 @@ public class BombermanGame extends Application {
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
-                    Move.up();
+                    Move.up(player);
                     break;
                 case DOWN:
-                    Move.down();
+                    Move.down(player);
                     break;
                 case LEFT:
-                    Move.left();
+                    Move.left(player);
                     break;
                 case RIGHT:
-                    Move.right();
+                    Move.right(player);
                     break;
                 case SPACE:
                     Bomb.putBomb();
@@ -88,11 +87,6 @@ public class BombermanGame extends Application {
                 render();
                 update();
                 time();
-                countToRun++;
-                if (countToRun == 4) {
-                    Move.checkRun();
-                    countToRun = 0;
-                }
             }
         };
         timer.start();
@@ -101,6 +95,16 @@ public class BombermanGame extends Application {
 
         player = new Bomber(1, 1, Sprite.player_right_2.getFxImage());
         entities.add(player);
+
+        addCreature();
+    }
+
+
+    public void addCreature() {
+        Entity enemy1 = new Ballom(4, 4, Sprite.ballom_left1.getFxImage());
+//        Entity enemy2 = new Ballom(9, 9, Sprite.ballom_left1.getFxImage());
+        enemy.add(enemy1);
+//        enemy.add(enemy2);
     }
 
     public void createMap() {
@@ -151,11 +155,25 @@ public class BombermanGame extends Application {
 
     public void update() {
         entities.forEach(Entity::update);
+        enemy.forEach(Entity::update);
+
+        countToRun++;
+        if (countToRun == 4) {
+            Move.checkRun(player);
+            countToRun = 0;
+        }
+
+        countToRunEnemy++;
+        if (countToRunEnemy == 4) {
+            Move.checkRun(enemy.get(0));
+            countToRunEnemy = 0;
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         entities.forEach(g -> g.render(gc));
+        enemy.forEach(g -> g.render(gc));
     }
 
     public void time() {

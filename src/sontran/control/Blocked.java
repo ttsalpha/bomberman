@@ -1,5 +1,6 @@
 package sontran.control;
 
+import sontran.entities.Entity;
 import sontran.entities.Grass;
 
 import static sontran.BombermanGame.*;
@@ -14,23 +15,23 @@ public class Blocked {
         return allows_movement;
     }
 
-    public static boolean block_down() {
-        local = (player.getY() / 32 + 1) * WIDTH + player.getX() / 32;
+    public static boolean block_down(Entity entity) {
+        local = (entity.getY() / 32 + 1) * WIDTH + entity.getX() / 32;
         return checkBlocks(local);
     }
 
-    public static boolean block_up() {
-        local = (player.getY() / 32 - 1) * WIDTH + player.getX() / 32;
+    public static boolean block_up(Entity entity) {
+        local = (entity.getY() / 32 - 1) * WIDTH + entity.getX() / 32;
         return checkBlocks(local);
     }
 
-    public static boolean block_left() {
-        local = player.getY() / 32 * WIDTH + player.getX() / 32 - 1;
+    public static boolean block_left(Entity entity) {
+        local = entity.getY() / 32 * WIDTH + entity.getX() / 32 - 1;
         return checkBlocks(local);
     }
 
-    public static boolean block_right() {
-        local = (player.getY()) / 32 * WIDTH + player.getX() / 32 + 1;
+    public static boolean block_right(Entity entity) {
+        local = (entity.getY()) / 32 * WIDTH + entity.getX() / 32 + 1;
         return checkBlocks(local);
     }
 }
