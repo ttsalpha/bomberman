@@ -1,7 +1,7 @@
 package sontran.control;
 
 import sontran.entities.Entity;
-import sontran.entities.Grass;
+import sontran.entities.block.Grass;
 
 import static sontran.BombermanGame.*;
 

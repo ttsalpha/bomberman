@@ -1,247 +1,241 @@
 package sontran.control;
 
-import sontran.entities.Ballom;
-import sontran.entities.Bomber;
-import sontran.entities.Entity;
+import sontran.entities.animal.Ballom;
+import sontran.entities.animal.Bomber;
+import sontran.entities.animal.Animal;
 import sontran.graphics.Sprite;
 
 public class Move {
 //    public static boolean running = false;
 
-    private static final int isMove = 8;//jump 8 pixel
-    private static final int isMoveEnemy = 4;//jump 4 pixel
+//    private static final int isMove = 8;//jump 8 pixel - !fix
+//    private static int swap = 1;        //swap image
+//    private static String direction;    //direction of player
+//    private static int count = 0;       //count step of a jump
+//    public static int countToRun = 0;   //run after 4 frame
 
-    private static int swap = 1;        //swap image
-    private static String direction;    //direction of player
-    private static int count = 0;       //count step of a jump
-    public static int countToRun = 0;   //run after 4 frame
 
-    private static int swapEnemy = 1;
-    private static String directionEnemy;
-    private static int countEnemy = 0;
-    public static int countToRunEnemy = 0;
-
-    public static void checkRun(Entity entity) {
-        if (entity instanceof Bomber && count > 0) {
-            setDirection(direction, entity, isMove);
-            count--;
+    public static void checkRun(Animal animal) {
+        if (animal instanceof Bomber && animal.getCount() > 0) {
+            setDirection(animal.getDirection(), animal, 8);
+            animal.setCount(animal.getCount() - 1);
         }
-        if (entity instanceof Ballom && countEnemy > 0) {
-            setDirection(directionEnemy, entity, isMoveEnemy);
-            countEnemy--;
+        if (animal instanceof Ballom && animal.getCount() > 0) {
+            setDirection(animal.getDirection(), animal, 4);
+            animal.setCount(animal.getCount() - 1);
         }
     }
 
-    private static void setDirection(String direction, Entity entity, int isMove) {
+    private static void setDirection(String direction, Animal animal, int isMove) {
         switch (direction) {
             case "down":
-                down_step(entity);
-                entity.setY(entity.getY() + isMove);
+                down_step(animal);
+                animal.setY(animal.getY() + isMove);
                 break;
             case "up":
-                up_step(entity);
-                entity.setY(entity.getY() - isMove);
+                up_step(animal);
+                animal.setY(animal.getY() - isMove);
                 break;
             case "left":
-                left_step(entity);
-                entity.setX(entity.getX() - isMove);
+                left_step(animal);
+                animal.setX(animal.getX() - isMove);
                 break;
             case "right":
-                right_step(entity);
-                entity.setX(entity.getX() + isMove);
+                right_step(animal);
+                animal.setX(animal.getX() + isMove);
                 break;
         }
     }
 
-    public static void down(Entity entity) {
-        if (entity.getY() % 32 == 0 && entity.getX() % 32 == 0) {
-            if (entity instanceof Bomber && Blocked.block_down(entity)) {
-                direction = "down";
-                count = 4;
-                checkRun(entity);
+    public static void down(Animal animal) {
+        if (animal.getY() % 32 == 0 && animal.getX() % 32 == 0) {
+            if (animal instanceof Bomber && Blocked.block_down(animal)) {
+                animal.setDirection("down");
+                animal.setCount(4);
+                checkRun(animal);
             }
-            if (entity instanceof Ballom && Blocked.block_down(entity)) {
-                directionEnemy = "down";
-                countEnemy = 8;
-                checkRun(entity);
-            }
-        }
-    }
-
-    private static void down_step(Entity entity) {
-        if (entity instanceof Bomber && entity.getY() % 8 == 0) {
-            if (swap == 1) {
-                entity.setImg(Sprite.player_down.getFxImage());
-                swap = 2;
-            } else if (swap == 2) {
-                entity.setImg(Sprite.player_down_1.getFxImage());
-                swap = 3;
-            } else if (swap == 3) {
-                entity.setImg(Sprite.player_down.getFxImage());
-                swap = 4;
-            } else {
-                entity.setImg(Sprite.player_down_2.getFxImage());
-                swap = 1;
-            }
-        }
-        if (entity instanceof Ballom && entity.getY() % 8 == 0) {
-            if (swapEnemy == 1) {
-                entity.setImg(Sprite.ballom_right1.getFxImage());
-                swapEnemy = 2;
-            } else if (swapEnemy == 2) {
-                entity.setImg(Sprite.ballom_right2.getFxImage());
-                swapEnemy = 3;
-            } else if (swapEnemy == 3) {
-                entity.setImg(Sprite.ballom_right3.getFxImage());
-                swapEnemy = 4;
-            } else {
-                entity.setImg(Sprite.ballom_right2.getFxImage());
-                swapEnemy = 1;
+            if (animal instanceof Ballom && Blocked.block_down(animal)) {
+                animal.setDirection("down");
+                animal.setCount(8);
+                checkRun(animal);
             }
         }
     }
 
-    public static void up(Entity entity) {
-        if (entity.getY() % 32 == 0 && entity.getX() % 32 == 0) {
-            if (entity instanceof Bomber && Blocked.block_up(entity)) {
-                direction = "up";
-                count = 4;
-                checkRun(entity);
+    private static void down_step(Animal animal) {
+        if (animal instanceof Bomber && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.player_down.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.player_down_1.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.player_down.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.player_down_2.getFxImage());
+                animal.setSwap(1);
             }
-            if (entity instanceof Ballom && Blocked.block_up(entity)) {
-                directionEnemy = "up";
-                countEnemy = 8;
-                checkRun(entity);
+        }
+        if (animal instanceof Ballom && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.ballom_right1.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.ballom_right2.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.ballom_right3.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.ballom_right2.getFxImage());
+                animal.setSwap(1);
             }
         }
     }
 
-    private static void up_step(Entity entity) {
-        if (entity instanceof Bomber && entity.getY() % 8 == 0) {
-            if (swap == 1) {
-                entity.setImg(Sprite.player_up.getFxImage());
-                swap = 2;
-            } else if (swap == 2) {
-                entity.setImg(Sprite.player_up_1.getFxImage());
-                swap = 3;
-            } else if (swap == 3) {
-                entity.setImg(Sprite.player_up.getFxImage());
-                swap = 4;
-            } else {
-                entity.setImg(Sprite.player_up_2.getFxImage());
-                swap = 1;
+    public static void up(Animal animal) {
+        if (animal.getY() % 32 == 0 && animal.getX() % 32 == 0) {
+            if (animal instanceof Bomber && Blocked.block_up(animal)) {
+                animal.setDirection("up");
+                animal.setCount(4);
+                checkRun(animal);
             }
-        }
-        if (entity instanceof Ballom && entity.getY() % 8 == 0) {
-            if (swapEnemy == 1) {
-                entity.setImg(Sprite.ballom_left1.getFxImage());
-                swapEnemy = 2;
-            } else if (swapEnemy == 2) {
-                entity.setImg(Sprite.ballom_left2.getFxImage());
-                swapEnemy = 3;
-            } else if (swapEnemy == 3) {
-                entity.setImg(Sprite.ballom_left3.getFxImage());
-                swapEnemy = 4;
-            } else {
-                entity.setImg(Sprite.ballom_left2.getFxImage());
-                swapEnemy = 1;
+            if (animal instanceof Ballom && Blocked.block_up(animal)) {
+                animal.setDirection("up");
+                animal.setCount(8);
+                checkRun(animal);
             }
         }
     }
 
-    public static void left(Entity entity) {
-        if (entity.getX() % 32 == 0 && entity.getY() % 32 == 0) {
-            if (entity instanceof Bomber && Blocked.block_left(entity)) {
-                direction = "left";
-                count = 4;
-                checkRun(entity);
+    private static void up_step(Animal animal) {
+        if (animal instanceof Bomber && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.player_up.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.player_up_1.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.player_up.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.player_up_2.getFxImage());
+                animal.setSwap(1);
             }
-            if (entity instanceof Ballom && Blocked.block_left(entity)) {
-                directionEnemy = "left";
-                countEnemy = 8;
-                checkRun(entity);
+        }
+        if (animal instanceof Ballom && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.ballom_left1.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.ballom_left2.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.ballom_left3.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.ballom_left2.getFxImage());
+                animal.setSwap(1);
             }
         }
     }
 
-    private static void left_step(Entity entity) {
-        if (entity instanceof Bomber && entity.getX() % 8 == 0) {
-            if (swap == 1) {
-                entity.setImg(Sprite.player_left.getFxImage());
-                swap = 2;
-            } else if (swap == 2) {
-                entity.setImg(Sprite.player_left_1.getFxImage());
-                swap = 3;
-            } else if (swap == 3) {
-                entity.setImg(Sprite.player_left.getFxImage());
-                swap = 4;
-            } else {
-                entity.setImg(Sprite.player_left_2.getFxImage());
-                swap = 1;
+    public static void left(Animal animal) {
+        if (animal.getX() % 32 == 0 && animal.getY() % 32 == 0) {
+            if (animal instanceof Bomber && Blocked.block_left(animal)) {
+                animal.setDirection("left");
+                animal.setCount(4);
+                checkRun(animal);
             }
-        }
-        if (entity instanceof Ballom && entity.getY() % 8 == 0) {
-            if (swapEnemy == 1) {
-                entity.setImg(Sprite.ballom_right1.getFxImage());
-                swapEnemy = 2;
-            } else if (swapEnemy == 2) {
-                entity.setImg(Sprite.ballom_right2.getFxImage());
-                swapEnemy = 3;
-            } else if (swapEnemy == 3) {
-                entity.setImg(Sprite.ballom_right3.getFxImage());
-                swapEnemy = 4;
-            } else {
-                entity.setImg(Sprite.ballom_right2.getFxImage());
-                swapEnemy = 1;
+            if (animal instanceof Ballom && Blocked.block_left(animal)) {
+                animal.setDirection("left");
+                animal.setCount(8);
+                checkRun(animal);
             }
         }
     }
 
-    public static void right(Entity entity) {
-        if (entity.getX() % 32 == 0 && entity.getY() % 32 == 0) {
-            if (entity instanceof Bomber && Blocked.block_right(entity)) {
-                direction = "right";
-                count = 4;
-                checkRun(entity);
+    private static void left_step(Animal animal) {
+        if (animal instanceof Bomber && animal.getX() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.player_left.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.player_left_1.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.player_left.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.player_left_2.getFxImage());
+                animal.setSwap(1);
             }
-            if (entity instanceof Ballom && Blocked.block_right(entity)) {
-                directionEnemy = "right";
-                countEnemy = 88;
-                checkRun(entity);
+        }
+        if (animal instanceof Ballom && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.ballom_right1.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.ballom_right2.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.ballom_right3.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.ballom_right2.getFxImage());
+                animal.setSwap(1);
             }
         }
     }
 
-    public static void right_step(Entity entity) {
-        if (entity instanceof Bomber && entity.getX() % 8 == 0) {
-            if (swap == 1) {
-                entity.setImg(Sprite.player_right.getFxImage());
-                swap = 2;
-            } else if (swap == 2) {
-                entity.setImg(Sprite.player_right_1.getFxImage());
-                swap = 3;
-            } else if (swap == 3) {
-                entity.setImg(Sprite.player_right.getFxImage());
-                swap = 4;
+    public static void right(Animal animal) {
+        if (animal.getX() % 32 == 0 && animal.getY() % 32 == 0) {
+            if (animal instanceof Bomber && Blocked.block_right(animal)) {
+                animal.setDirection("right");
+                animal.setCount(4);
+                checkRun(animal);
+            }
+            if (animal instanceof Ballom && Blocked.block_right(animal)) {
+                animal.setDirection("right");
+                animal.setCount(8);
+                checkRun(animal);
+            }
+        }
+    }
+
+    public static void right_step(Animal animal) {
+        if (animal instanceof Bomber && animal.getX() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.player_right.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.player_right_1.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.player_right.getFxImage());
+                animal.setSwap(4);
             } else {
-                entity.setImg(Sprite.player_right_2.getFxImage());
-                swap = 1;
+                animal.setImg(Sprite.player_right_2.getFxImage());
+                animal.setSwap(1);
             }
         }
 
-        if (entity instanceof Ballom && entity.getY() % 8 == 0) {
-            if (swapEnemy == 1) {
-                entity.setImg(Sprite.ballom_left1.getFxImage());
-                swapEnemy = 2;
-            } else if (swapEnemy == 2) {
-                entity.setImg(Sprite.ballom_left2.getFxImage());
-                swapEnemy = 3;
-            } else if (swapEnemy == 3) {
-                entity.setImg(Sprite.ballom_left3.getFxImage());
-                swapEnemy = 4;
+        if (animal instanceof Ballom && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.ballom_left1.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.ballom_left2.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.ballom_left3.getFxImage());
+                animal.setSwap(4);
             } else {
-                entity.setImg(Sprite.ballom_left2.getFxImage());
-                swapEnemy = 1;
+                animal.setImg(Sprite.ballom_left2.getFxImage());
+                animal.setSwap(1);
             }
         }
     }

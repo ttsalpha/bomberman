@@ -9,15 +9,19 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import sontran.control.Move;
 import sontran.entities.*;
+import sontran.entities.animal.Animal;
+import sontran.entities.animal.Ballom;
+import sontran.entities.animal.Bomber;
+import sontran.entities.block.Brick;
+import sontran.entities.block.Grass;
+import sontran.entities.block.Portal;
+import sontran.entities.block.Wall;
 import sontran.graphics.Sprite;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-
-import static sontran.control.Move.countToRun;
-import static sontran.control.Move.countToRunEnemy;
 
 
 public class BombermanGame extends Application {
@@ -29,8 +33,8 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static final List<Entity> entities = new ArrayList<>();
     public static int[][] idObjects = new int[WIDTH][HEIGHT];
-    public static Entity player;
-    public static List<Entity> enemy = new ArrayList<>();
+    public static Animal player;
+    public static List<Animal> enemy = new ArrayList<>();
 
     private int frame = 1;
     private long lastTime;
@@ -101,8 +105,8 @@ public class BombermanGame extends Application {
 
 
     public void addCreature() {
-        Entity enemy1 = new Ballom(4, 4, Sprite.ballom_left1.getFxImage());
-//        Entity enemy2 = new Ballom(9, 9, Sprite.ballom_left1.getFxImage());
+        Animal enemy1 = new Ballom(4, 4, Sprite.ballom_left1.getFxImage());
+//        Animal enemy2 = new Ballom(9, 9, Sprite.ballom_left1.getFxImage());
         enemy.add(enemy1);
 //        enemy.add(enemy2);
     }
@@ -157,16 +161,16 @@ public class BombermanGame extends Application {
         entities.forEach(Entity::update);
         enemy.forEach(Entity::update);
 
-        countToRun++;
-        if (countToRun == 4) {
+        player.setCountToRun(player.getCountToRun() + 1);
+        if (player.getCountToRun() == 4) {
             Move.checkRun(player);
-            countToRun = 0;
+            player.setCountToRun(0);
         }
 
-        countToRunEnemy++;
-        if (countToRunEnemy == 8) {
+        enemy.get(0).setCountToRun(enemy.get(0).getCountToRun() + 1);
+        if (enemy.get(0).getCountToRun() == 8) {
             Move.checkRun(enemy.get(0));
-            countToRunEnemy = 0;
+            enemy.get(0).setCountToRun(0);
         }
     }
 

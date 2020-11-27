@@ -1,6 +1,7 @@
-package sontran.entities;
+package sontran.entities.block;
 
 import javafx.scene.image.Image;
+import sontran.entities.Entity;
 
 public class Brick extends Entity {
 
