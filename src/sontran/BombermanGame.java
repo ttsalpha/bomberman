@@ -12,10 +12,7 @@ import sontran.entities.*;
 import sontran.entities.animal.Animal;
 import sontran.entities.animal.Ballom;
 import sontran.entities.animal.Bomber;
-import sontran.entities.block.Brick;
-import sontran.entities.block.Grass;
-import sontran.entities.block.Portal;
-import sontran.entities.block.Wall;
+import sontran.entities.block.*;
 import sontran.graphics.Sprite;
 
 import java.io.File;
@@ -28,11 +25,14 @@ public class BombermanGame extends Application {
 
     public static final int WIDTH = 25;
     public static final int HEIGHT = 15;
+    public static int _width = 0;
+    public static int _height = 0;
+    public static int _level = 1;
 
     private GraphicsContext gc;
     private Canvas canvas;
-    public static final List<Entity> entities = new ArrayList<>();
-    public static int[][] idObjects = new int[WIDTH][HEIGHT];
+    public static final List<Entity> block = new ArrayList<>();
+    public static int[][] idObjects;
     public static Animal player;
     public static List<Animal> enemy = new ArrayList<>();
 
@@ -98,7 +98,6 @@ public class BombermanGame extends Application {
         createMap();
 
         player = new Bomber(1, 1, Sprite.player_right_2.getFxImage());
-        entities.add(player);
 
         addCreature();
     }
@@ -123,11 +122,12 @@ public class BombermanGame extends Application {
             String line = sc.nextLine();
 
             StringTokenizer tokens = new StringTokenizer(line);
-            int _level = Integer.parseInt(tokens.nextToken());
-            int _height = Integer.parseInt(tokens.nextToken());
-            int _width = Integer.parseInt(tokens.nextToken());
+            _level = Integer.parseInt(tokens.nextToken());
+            _height = Integer.parseInt(tokens.nextToken());
+            _width = Integer.parseInt(tokens.nextToken());
 
             while (sc.hasNextLine()) {
+                idObjects = new int[_width][_height];
                 for (int i = 0; i < _height; ++i) {
                     String lineTile = sc.nextLine();
                     StringTokenizer tokenTile = new StringTokenizer(lineTile);
@@ -148,9 +148,8 @@ public class BombermanGame extends Application {
                                 break;
                             default:
                                 entity = new Grass(j, i, Sprite.grass.getFxImage());
-
                         }
-                        entities.add(entity);
+                        block.add(entity);
                     }
                 }
             }
@@ -160,7 +159,7 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        entities.forEach(Entity::update);
+        block.forEach(Entity::update);
         enemy.forEach(Entity::update);
 
         player.setCountToRun(player.getCountToRun() + 1);
@@ -180,8 +179,9 @@ public class BombermanGame extends Application {
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        entities.forEach(g -> g.render(gc));
+        block.forEach(g -> g.render(gc));
         enemy.forEach(g -> g.render(gc));
+        player.render(gc);
     }
 
     public void time() {
