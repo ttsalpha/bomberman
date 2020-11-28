@@ -9,6 +9,7 @@ public abstract class Animal extends Entity {
     protected String direction;//direction of player
     protected int count;       //count step of a jump
     protected int countToRun;   //run after count frame
+    protected boolean life;     //life of enemy
 
     public Animal(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -20,6 +21,18 @@ public abstract class Animal extends Entity {
         this.direction = direction;
         this.count = count;
         this.countToRun = countToRun;
+    }
+
+    public Animal(boolean life) {
+        this.life = life;
+    }
+
+    public boolean isLife() {
+        return life;
+    }
+
+    public void setLife(boolean life) {
+        this.life = life;
     }
 
     public int getIsMove() {

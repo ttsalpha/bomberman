@@ -35,6 +35,7 @@ public class BombermanGame extends Application {
     public static int[][] idObjects;
     public static Animal player;
     public static List<Animal> enemy = new ArrayList<>();
+    public static int[][] listKill;
 
     private int frame = 1;
     private long lastTime;
@@ -110,6 +111,9 @@ public class BombermanGame extends Application {
         enemy.add(enemy1);
         enemy.add(enemy2);
         enemy.add(enemy3);
+        for (Animal animal : enemy) {
+            animal.setLife(true);
+        }
     }
 
     public void createMap() {
@@ -128,6 +132,7 @@ public class BombermanGame extends Application {
 
             while (sc.hasNextLine()) {
                 idObjects = new int[_width][_height];
+                listKill = new int[_width][_height];
                 for (int i = 0; i < _height; ++i) {
                     String lineTile = sc.nextLine();
                     StringTokenizer tokenTile = new StringTokenizer(lineTile);

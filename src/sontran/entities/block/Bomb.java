@@ -38,6 +38,7 @@ public class Bomb extends Entity {
             bomb = new Bomb(x, y, Sprite.bomb.getFxImage());
             block.add(bomb);
             idObjects[player.getX() / 32][player.getY() / 32] = 4;
+            listKill[player.getX() / 32][player.getY() / 32] = 4;
         }
     }
 
@@ -60,19 +61,25 @@ public class Bomb extends Entity {
     public static void createEdge() {
         edge_down = new Bomb(bomb.getX() / 32, bomb.getY() / 32 + 1 + powerBomb,
                 Sprite.transparent.getFxImage());
-        block.add(edge_down);
         edge_up = new Bomb(bomb.getX() / 32, bomb.getY() / 32 - 1 - powerBomb,
                 Sprite.transparent.getFxImage());
-        block.add(edge_up);
         edge_left = new Bomb(bomb.getX() / 32 - 1 - powerBomb, bomb.getY() / 32,
                 Sprite.transparent.getFxImage());
-        block.add(edge_left);
         edge_right = new Bomb(bomb.getX() / 32 + 1 + powerBomb, bomb.getY() / 32,
                 Sprite.transparent.getFxImage());
+
+        block.add(edge_down);
+        block.add(edge_up);
+        block.add(edge_left);
         block.add(edge_right);
     }
 
     public static void explosionCenter() {
+        listKill[edge_down.getX() / 32][edge_down.getY() / 32] = 4;
+        listKill[edge_up.getX() / 32][edge_up.getY() / 32] = 4;
+        listKill[edge_left.getX() / 32][edge_left.getY() / 32] = 4;
+        listKill[edge_right.getX() / 32][edge_right.getY() / 32] = 4;
+
         if (swapExplosion == 1) {
             bomb.setImg(Sprite.bomb_exploded.getFxImage());
             if (Blocked.block_down_bomb(bomb, powerBomb))
@@ -139,6 +146,7 @@ public class Bomb extends Entity {
                 if (Blocked.block_down_bomb(bomb, powerBomb)) {
                     edge_down.setImg(Sprite.grass.getFxImage());
                     idObjects[edge_down.getX() / 32][edge_down.getY() / 32] = 0;
+
                 }
                 if (Blocked.block_up_bomb(bomb, powerBomb)) {
                     edge_up.setImg(Sprite.grass.getFxImage());
