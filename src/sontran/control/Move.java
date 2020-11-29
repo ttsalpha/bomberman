@@ -6,14 +6,6 @@ import sontran.entities.animal.Animal;
 import sontran.graphics.Sprite;
 
 public class Move {
-//    public static boolean running = false;
-
-//    private static final int isMove = 8;//jump 8 pixel - !fix
-//    private static int swap = 1;        //swap image
-//    private static String direction;    //direction of player
-//    private static int count = 0;       //count step of a jump
-//    public static int countToRun = 0;   //run after 4 frame
-
 
     public static void checkRun(Animal animal) {
         if (animal instanceof Bomber && animal.getCount() > 0) {

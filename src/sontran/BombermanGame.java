@@ -8,17 +8,21 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import sontran.control.Move;
-import sontran.entities.*;
+import sontran.entities.Entity;
 import sontran.entities.animal.Animal;
 import sontran.entities.animal.Ballom;
 import sontran.entities.animal.Bomber;
 import sontran.entities.block.*;
+import sontran.entities.item.PowerUpBombs;
 import sontran.graphics.Sprite;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 
 public class BombermanGame extends Application {
@@ -29,13 +33,15 @@ public class BombermanGame extends Application {
     public static int _height = 0;
     public static int _level = 1;
 
+    public static final List<Entity> block = new ArrayList<>();
+    public static List<Animal> enemy = new ArrayList<>();
+    public static int[][] idObjects;
+    public static int[][] listKill;
+    public static Animal player;
+
+    private static final List<Entity> background = new ArrayList<>();
     private GraphicsContext gc;
     private Canvas canvas;
-    public static final List<Entity> block = new ArrayList<>();
-    public static int[][] idObjects;
-    public static Animal player;
-    public static List<Animal> enemy = new ArrayList<>();
-    public static int[][] listKill;
 
     private int frame = 1;
     private long lastTime;
@@ -99,7 +105,9 @@ public class BombermanGame extends Application {
         createMap();
 
         player = new Bomber(1, 1, Sprite.player_right_2.getFxImage());
+        player.setLife(true);
 
+        createBackground();
         addCreature();
     }
 
@@ -114,6 +122,15 @@ public class BombermanGame extends Application {
         for (Animal animal : enemy) {
             animal.setLife(true);
         }
+    }
+
+    public void createBackground() {
+        for (int i = 0; i < WIDTH; i++)
+            for (int j = 0; j < HEIGHT; j++) {
+                Entity obj = new Grass(i, j, Sprite.grass.getFxImage());
+                background.add(obj);
+            }
+
     }
 
     public void createMap() {
@@ -143,7 +160,7 @@ public class BombermanGame extends Application {
                         Entity entity;
                         switch (s) {
                             case 1:
-                                entity = new Portal(j, i, Sprite.portal.getFxImage());
+                                entity = new Portal(j, i, Sprite.brick.getFxImage());
                                 break;
                             case 2:
                                 entity = new Wall(j, i, Sprite.wall.getFxImage());
@@ -151,9 +168,17 @@ public class BombermanGame extends Application {
                             case 3:
                                 entity = new Brick(j, i, Sprite.brick.getFxImage());
                                 break;
+                            case 6:
+                                entity = new PowerUpBombs(j, i, Sprite.brick.getFxImage());
+                                break;
                             default:
                                 entity = new Grass(j, i, Sprite.grass.getFxImage());
                         }
+                        //0 grass	1 portal	    2 wall
+                        //3 brick	4  bomb/kill	5 enemy
+                        //6 power up bombs
+                        //7 power up flames
+                        //8 power up speed
                         block.add(entity);
                     }
                 }
@@ -184,6 +209,7 @@ public class BombermanGame extends Application {
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        background.forEach(g -> g.render(gc));
         block.forEach(g -> g.render(gc));
         enemy.forEach(g -> g.render(gc));
         player.render(gc);

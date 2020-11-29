@@ -14,11 +14,14 @@ public class Bomb extends Entity {
     private static Entity bomb;
     private static int swapActive = 1;
     private static int swapExplosion = 1;
-    private static int powerBomb = 0;
+
+    public static int powerBomb = 0;
+
     private static Entity edge_down;
     private static Entity edge_up;
     private static Entity edge_left;
     private static Entity edge_right;
+    private static boolean isEdge = false;
 
     public static int isBomb = 0;   //0 no bomb /1 had bomb /2 explosion
 
@@ -59,37 +62,48 @@ public class Bomb extends Entity {
     }
 
     public static void createEdge() {
-        edge_down = new Bomb(bomb.getX() / 32, bomb.getY() / 32 + 1 + powerBomb,
-                Sprite.transparent.getFxImage());
-        edge_up = new Bomb(bomb.getX() / 32, bomb.getY() / 32 - 1 - powerBomb,
-                Sprite.transparent.getFxImage());
-        edge_left = new Bomb(bomb.getX() / 32 - 1 - powerBomb, bomb.getY() / 32,
-                Sprite.transparent.getFxImage());
-        edge_right = new Bomb(bomb.getX() / 32 + 1 + powerBomb, bomb.getY() / 32,
-                Sprite.transparent.getFxImage());
-
-        block.add(edge_down);
-        block.add(edge_up);
-        block.add(edge_left);
-        block.add(edge_right);
+        if (Blocked.block_down_bomb(bomb, powerBomb)) {
+            edge_down = new Bomb(bomb.getX() / 32, bomb.getY() / 32 + 1 + powerBomb,
+                    Sprite.transparent.getFxImage());
+            block.add(edge_down);
+        }
+        if (Blocked.block_up_bomb(bomb, powerBomb)) {
+            edge_up = new Bomb(bomb.getX() / 32, bomb.getY() / 32 - 1 - powerBomb,
+                    Sprite.transparent.getFxImage());
+            block.add(edge_up);
+        }
+        if (Blocked.block_left_bomb(bomb, powerBomb)) {
+            edge_left = new Bomb(bomb.getX() / 32 - 1 - powerBomb, bomb.getY() / 32,
+                    Sprite.transparent.getFxImage());
+            block.add(edge_left);
+        }
+        if (Blocked.block_right_bomb(bomb, powerBomb)) {
+            edge_right = new Bomb(bomb.getX() / 32 + 1 + powerBomb, bomb.getY() / 32,
+                    Sprite.transparent.getFxImage());
+            block.add(edge_right);
+        }
     }
 
     public static void explosionCenter() {
-        listKill[edge_down.getX() / 32][edge_down.getY() / 32] = 4;
-        listKill[edge_up.getX() / 32][edge_up.getY() / 32] = 4;
-        listKill[edge_left.getX() / 32][edge_left.getY() / 32] = 4;
-        listKill[edge_right.getX() / 32][edge_right.getY() / 32] = 4;
-
         if (swapExplosion == 1) {
             bomb.setImg(Sprite.bomb_exploded.getFxImage());
-            if (Blocked.block_down_bomb(bomb, powerBomb))
+            listKill[bomb.getX() / 32][bomb.getY() / 32] = 4;
+            if (Blocked.block_down_bomb(bomb, powerBomb)) {
                 edge_down.setImg(Sprite.explosion_vertical_down_last.getFxImage());
-            if (Blocked.block_up_bomb(bomb, powerBomb))
+                listKill[edge_down.getX() / 32][edge_down.getY() / 32] = 4;
+            }
+            if (Blocked.block_up_bomb(bomb, powerBomb)) {
                 edge_up.setImg(Sprite.explosion_vertical_top_last.getFxImage());
-            if (Blocked.block_left_bomb(bomb, powerBomb))
+                listKill[edge_up.getX() / 32][edge_up.getY() / 32] = 4;
+            }
+            if (Blocked.block_left_bomb(bomb, powerBomb)) {
                 edge_left.setImg(Sprite.explosion_horizontal_left_last.getFxImage());
-            if (Blocked.block_right_bomb(bomb, powerBomb))
+                listKill[edge_left.getX() / 32][edge_left.getY() / 32] = 4;
+            }
+            if (Blocked.block_right_bomb(bomb, powerBomb)) {
                 edge_right.setImg(Sprite.explosion_horizontal_right_last.getFxImage());
+                listKill[edge_right.getX() / 32][edge_right.getY() / 32] = 4;
+            }
             swapExplosion = 2;
         } else if (swapExplosion == 2) {
             bomb.setImg(Sprite.bomb_exploded1.getFxImage());
@@ -135,30 +149,38 @@ public class Bomb extends Entity {
         if (isBomb == 2)
             if (System.currentTimeMillis() - timeBomb < 1000) {
                 if (System.currentTimeMillis() - timeTmp > 100) {
-                    createEdge();
+                    if (!isEdge) {
+                        createEdge();
+                        isEdge = true;
+                    }
                     explosionCenter();
                     timeTmp += 100;
                 }
             } else {
                 isBomb = 0;
+                isEdge = false;
                 idObjects[bomb.getX() / 32][bomb.getY() / 32] = 0;
-                bomb.setImg(Sprite.grass.getFxImage());
+                listKill[bomb.getX() / 32][bomb.getY() / 32] = 0;
+                bomb.setImg(Sprite.transparent.getFxImage());
                 if (Blocked.block_down_bomb(bomb, powerBomb)) {
-                    edge_down.setImg(Sprite.grass.getFxImage());
+                    edge_down.setImg(Sprite.transparent.getFxImage());
                     idObjects[edge_down.getX() / 32][edge_down.getY() / 32] = 0;
-
+                    listKill[edge_down.getX() / 32][edge_down.getY() / 32] = 0;
                 }
                 if (Blocked.block_up_bomb(bomb, powerBomb)) {
-                    edge_up.setImg(Sprite.grass.getFxImage());
+                    edge_up.setImg(Sprite.transparent.getFxImage());
                     idObjects[edge_up.getX() / 32][edge_up.getY() / 32] = 0;
+                    listKill[edge_up.getX() / 32][edge_up.getY() / 32] = 0;
                 }
                 if (Blocked.block_left_bomb(bomb, powerBomb)) {
-                    edge_left.setImg(Sprite.grass.getFxImage());
+                    edge_left.setImg(Sprite.transparent.getFxImage());
                     idObjects[edge_left.getX() / 32][edge_left.getY() / 32] = 0;
+                    listKill[edge_left.getX() / 32][edge_left.getY() / 32] = 0;
                 }
                 if (Blocked.block_right_bomb(bomb, powerBomb)) {
-                    edge_right.setImg(Sprite.grass.getFxImage());
+                    edge_right.setImg(Sprite.transparent.getFxImage());
                     idObjects[edge_right.getX() / 32][edge_right.getY() / 32] = 0;
+                    listKill[edge_right.getX() / 32][edge_right.getY() / 32] = 0;
                 }
             }
     }
