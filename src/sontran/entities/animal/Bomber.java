@@ -26,10 +26,10 @@ public class Bomber extends Animal {
                 animal.setImg(Sprite.player_dead1.getFxImage());
                 swapKill = 2;
             } else if (swapKill == 2) {
-                animal.setImg(Sprite.player_dead1.getFxImage());
+                animal.setImg(Sprite.player_dead2.getFxImage());
                 swapKill = 3;
             } else if (swapKill == 3) {
-                animal.setImg(Sprite.player_dead1.getFxImage());
+                animal.setImg(Sprite.player_dead3.getFxImage());
                 swapKill = 4;
             } else {
                 animal.setImg(Sprite.transparent.getFxImage());

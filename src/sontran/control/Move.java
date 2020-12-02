@@ -5,11 +5,13 @@ import sontran.entities.animal.Bomber;
 import sontran.entities.animal.Animal;
 import sontran.graphics.Sprite;
 
+import static sontran.entities.item.SpeedItem.*;
+
 public class Move {
 
     public static void checkRun(Animal animal) {
         if (animal instanceof Bomber && animal.getCount() > 0) {
-            setDirection(animal.getDirection(), animal, 8);
+            setDirection(animal.getDirection(), animal, 8 * speed);
             animal.setCount(animal.getCount() - 1);
         }
         if (animal instanceof Ballom && animal.getCount() > 0) {
@@ -43,7 +45,7 @@ public class Move {
         if (animal.getY() % 32 == 0 && animal.getX() % 32 == 0) {
             if (animal instanceof Bomber && Blocked.block_down(animal)) {
                 animal.setDirection("down");
-                animal.setCount(4);
+                animal.setCount(4 / speed);
                 checkRun(animal);
             }
             if (animal instanceof Ballom && Blocked.block_down(animal)) {
@@ -91,7 +93,7 @@ public class Move {
         if (animal.getY() % 32 == 0 && animal.getX() % 32 == 0) {
             if (animal instanceof Bomber && Blocked.block_up(animal)) {
                 animal.setDirection("up");
-                animal.setCount(4);
+                animal.setCount(4 / speed);
                 checkRun(animal);
             }
             if (animal instanceof Ballom && Blocked.block_up(animal)) {
@@ -139,7 +141,7 @@ public class Move {
         if (animal.getX() % 32 == 0 && animal.getY() % 32 == 0) {
             if (animal instanceof Bomber && Blocked.block_left(animal)) {
                 animal.setDirection("left");
-                animal.setCount(4);
+                animal.setCount(4 / speed);
                 checkRun(animal);
             }
             if (animal instanceof Ballom && Blocked.block_left(animal)) {
@@ -187,7 +189,7 @@ public class Move {
         if (animal.getX() % 32 == 0 && animal.getY() % 32 == 0) {
             if (animal instanceof Bomber && Blocked.block_right(animal)) {
                 animal.setDirection("right");
-                animal.setCount(4);
+                animal.setCount(4 / speed);
                 checkRun(animal);
             }
             if (animal instanceof Ballom && Blocked.block_right(animal)) {

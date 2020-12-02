@@ -13,7 +13,8 @@ import sontran.entities.animal.Animal;
 import sontran.entities.animal.Ballom;
 import sontran.entities.animal.Bomber;
 import sontran.entities.block.*;
-import sontran.entities.item.PowerUpBombs;
+import sontran.entities.item.FlameItem;
+import sontran.entities.item.SpeedItem;
 import sontran.graphics.Sprite;
 
 import java.io.File;
@@ -170,13 +171,16 @@ public class BombermanGame extends Application {
                                 entity = new Brick(j, i, Sprite.brick.getFxImage());
                                 break;
                             case 6:
-                                entity = new PowerUpBombs(j, i, Sprite.brick.getFxImage());
+                                entity = new SpeedItem(j, i, Sprite.brick.getFxImage());
+                                break;
+                            case 7:
+                                entity = new FlameItem(j, i, Sprite.brick.getFxImage());
                                 break;
                             default:
                                 entity = new Grass(j, i, Sprite.grass.getFxImage());
                         }
                         //0 grass	1 portal	    2 wall
-                        //3 brick	4  bomb/kill	5 enemy
+                        //3 brick	4 bomb/kill	    5 enemy
                         //6 power up bombs
                         //7 power up flames
                         //8 power up speed

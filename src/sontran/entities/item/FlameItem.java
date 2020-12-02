@@ -7,25 +7,25 @@ import sontran.graphics.Sprite;
 
 import static sontran.BombermanGame.*;
 
-public class PowerUpBombs extends Items {
+public class FlameItem extends Items {
 
-    public PowerUpBombs(int x, int y, Image img) {
+    public FlameItem(int x, int y, Image img) {
         super(x, y, img);
     }
 
-    public PowerUpBombs(boolean received) {
+    public FlameItem(boolean received) {
         super(received);
     }
 
-    public PowerUpBombs() {
+    public FlameItem() {
     }
 
     @Override
     public void update() {
         for (Entity entity : block)
-            if (entity instanceof PowerUpBombs && !this.received)
+            if (entity instanceof FlameItem && !this.received)
                 if (listKill[entity.getX() / 32][entity.getY() / 32] == 4)
-                    entity.setImg(Sprite.powerup_bombs.getFxImage());
+                    entity.setImg(Sprite.powerup_flames.getFxImage());
 
         if (!this.received)
             if (player.getX() == this.x && player.getY() == this.y) {
