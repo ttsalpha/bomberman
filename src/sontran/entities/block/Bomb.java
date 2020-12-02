@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import sontran.control.Blocked;
 import sontran.entities.Entity;
 import sontran.graphics.Sprite;
+import sontran.utility.SoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -248,6 +249,7 @@ public class Bomb extends Entity {
                             isMiddle = true;
                         }
                     }
+                    new SoundManager("sound/bomb_explosion.wav");
                     explosionCenter();
                     timeTmp += 100;
                 }

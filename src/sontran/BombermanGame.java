@@ -17,6 +17,7 @@ import sontran.entities.block.*;
 import sontran.entities.item.FlameItem;
 import sontran.entities.item.SpeedItem;
 import sontran.graphics.Sprite;
+import sontran.utility.SoundManager;
 
 import java.io.File;
 import java.io.FileReader;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-
 
 public class BombermanGame extends Application {
 
@@ -47,6 +47,7 @@ public class BombermanGame extends Application {
 
     private int frame = 1;
     private long lastTime;
+    private long soundStart;
 
     private static Stage mainStage = null;
 
@@ -238,5 +239,12 @@ public class BombermanGame extends Application {
             mainStage.setTitle("Bomberman from Son Tran | " + frame + " fps");
             frame = 0;
         }
+
+        long soundEnd = System.currentTimeMillis();
+        if (player.isLife())
+            if (soundEnd - soundStart > 20000) {
+                new SoundManager("sound/title_screen.wav");
+                soundStart = System.currentTimeMillis();
+            }
     }
 }
