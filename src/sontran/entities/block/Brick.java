@@ -17,7 +17,7 @@ public class Brick extends Entity {
         for (Entity entity : block) {
             if (entity instanceof Brick)
                 if (listKill[entity.getX() / 32][entity.getY() / 32] == 4) {
-                    entity.setImg(Sprite.transparent.getFxImage());
+                    entity.setImg(Sprite.grass.getFxImage());
                 }
         }
     }

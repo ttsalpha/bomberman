@@ -12,6 +12,7 @@ import sontran.entities.Entity;
 import sontran.entities.animal.Animal;
 import sontran.entities.animal.Ballom;
 import sontran.entities.animal.Bomber;
+import sontran.entities.animal.Oneal;
 import sontran.entities.block.*;
 import sontran.entities.item.FlameItem;
 import sontran.entities.item.SpeedItem;
@@ -109,7 +110,6 @@ public class BombermanGame extends Application {
         player = new Bomber(1, 1, Sprite.player_right_2.getFxImage());
         player.setLife(true);
 
-        createBackground();
         addCreature();
     }
 
@@ -121,6 +121,12 @@ public class BombermanGame extends Application {
         enemy.add(enemy1);
         enemy.add(enemy2);
         enemy.add(enemy3);
+
+        Animal enemy4 = new Oneal(7, 6, Sprite.oneal_right1.getFxImage());
+        Animal enemy5 = new Oneal(13, 8, Sprite.oneal_right1.getFxImage());
+        enemy.add(enemy4);
+        enemy.add(enemy5);
+
         for (Animal animal : enemy) {
             animal.setLife(true);
         }

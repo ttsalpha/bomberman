@@ -55,7 +55,7 @@ public class Ballom extends Animal {
         kill();
         countKill++;
         for (Animal animal : enemy) {
-            if (!animal.life)
+            if (animal instanceof Ballom && !animal.life)
                 killBallom(animal);
         }
 
