@@ -63,26 +63,27 @@ public class BombermanGame extends Application {
         Scene scene = new Scene(root);
 
         scene.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case UP:
-                    Move.up(player);
-                    break;
-                case DOWN:
-                    Move.down(player);
-                    break;
-                case LEFT:
-                    Move.left(player);
-                    break;
-                case RIGHT:
-                    Move.right(player);
-                    break;
-                case SPACE:
-                    Bomb.putBomb();
-                    break;
+            if (player.isLife())
+                switch (event.getCode()) {
+                    case UP:
+                        Move.up(player);
+                        break;
+                    case DOWN:
+                        Move.down(player);
+                        break;
+                    case LEFT:
+                        Move.left(player);
+                        break;
+                    case RIGHT:
+                        Move.right(player);
+                        break;
+                    case SPACE:
+                        Bomb.putBomb();
+                        break;
 //                    case SHIFT:
 //                        running = false;
 //                        break;
-            }
+                }
         });
 
         stage.setScene(scene);
@@ -191,6 +192,7 @@ public class BombermanGame extends Application {
     public void update() {
         block.forEach(Entity::update);
         enemy.forEach(Entity::update);
+        player.update();
 
         player.setCountToRun(player.getCountToRun() + 1);
         if (player.getCountToRun() == 4) {

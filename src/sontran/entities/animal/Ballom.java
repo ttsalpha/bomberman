@@ -20,7 +20,7 @@ public class Ballom extends Animal {
     public Ballom() {
     }
 
-    public void killBallom(Animal animal) {
+    private void killBallom(Animal animal) {
         if (countKill % 16 == 0) {
             if (swapKill == 1) {
                 animal.setImg(Sprite.mob_dead1.getFxImage());

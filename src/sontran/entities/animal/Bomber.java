@@ -6,8 +6,6 @@ import sontran.graphics.Sprite;
 import static sontran.BombermanGame.*;
 
 public class Bomber extends Animal {
-    private static int localX;
-    private static int localY;
     private static int swapKill = 1;
     private static int countKill = 0;
 
@@ -35,40 +33,36 @@ public class Bomber extends Animal {
                 swapKill = 4;
             } else {
                 animal.setImg(Sprite.transparent.getFxImage());
-                swapKill = 1;
             }
         }
     }
 
-    void checkCollide() {
-        if (player.getY() % 32 == 0 & player.getX() % 32 == 0) {
-            for (Animal animal : enemy) {
-                if (player.getX() == animal.getX() && player.getY() == animal.getY()
-                        || player.getX() == animal.getX() && player.getY() == animal.getY() + 32
-                        || player.getX() == animal.getX() && player.getY() == animal.getY() - 32
-                        || player.getY() == animal.getY() && player.getX() == animal.getX() + 32
-                        || player.getY() == animal.getY() && player.getX() == animal.getX() - 32) {
-                    player.setLife(false);
-                    break;
-                }
-            }
-        }
+    private void checkBombs() {
+        if (listKill[player.getX() / 32][player.getY() / 32] == 4)
+            player.setLife(false);
     }
 
-    private void updateMap() {
-        if (this.getX() % 32 == 0 && this.getY() % 32 == 0) {
-            idObjects[this.getX() / 32][this.getY() / 32] = 5;
-            idObjects[localX][localY] = 0;
-            localX = this.getX() / 32;
-            localY = this.getY() / 32;
+    private void checkEnemy() {
+        int ax = player.getX() / 32;
+        int ay = player.getY() / 32;
+        for (Animal animal : enemy) {
+            int bx = animal.getX() / 32;
+            int by = animal.getY() / 32;
+            if (ax == bx && ay == by
+                    || ax == bx && ay == by + 1 || ax == bx && ay == by - 1
+                    || ay == by && ax == bx + 1 || ay == by && ax == bx - 1) {
+                player.life = false;
+                break;
+            }
         }
     }
 
     @Override
     public void update() {
-        checkCollide();
+        checkBombs();
+        checkEnemy();
         countKill++;
-        if (!this.life)
-            killBomber(this);
+        if (!player.life)
+            killBomber(player);
     }
 }
