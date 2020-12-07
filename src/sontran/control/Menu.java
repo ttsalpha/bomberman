@@ -60,6 +60,7 @@ public class Menu {
                 new Level1();
                 running = true;
             }
+            updateMenu();
         });
 
     }

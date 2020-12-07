@@ -1,11 +1,32 @@
 package sontran.levels;
 
+import javafx.scene.image.Image;
+
 import static sontran.BombermanGame._level;
+import static sontran.BombermanGame.authorView;
+import static sontran.entities.block.Portal.isPortal;
 
 public class NextLevel {
+    public static boolean wait;
+    public static long waitingTime;
 
-    public static void GoToNextLevel() {
-        if (_level == 1)
-            new Level2();
+    public static void waitToLevelUp() {
+        if (wait) {
+            Image waitToNext = new Image("images/levelUp.png");
+            authorView.setImage(waitToNext);
+            long now = System.currentTimeMillis();
+            if (now - waitingTime > 2500) {
+                switch (_level) {
+                    case 1:
+                        isPortal = false;
+                        new Level2();
+                        break;
+                    case 2:
+                        new Level1();
+                        break;
+                }
+                wait = false;
+            }
+        }
     }
 }

@@ -15,11 +15,16 @@ import sontran.entities.Entity;
 import sontran.entities.animal.Animal;
 import sontran.entities.animal.Bomber;
 import sontran.entities.block.Bomb;
+import sontran.entities.block.Portal;
 import sontran.graphics.Sprite;
 import sontran.utility.SoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static sontran.control.Menu.updateMenu;
+import static sontran.entities.block.Portal.*;
+import static sontran.levels.NextLevel.*;
 
 public class BombermanGame extends Application {
 
@@ -56,7 +61,7 @@ public class BombermanGame extends Application {
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         canvas.setTranslateY(32);
         gc = canvas.getGraphicsContext2D();
-        Image author = new Image("images/author2x.png");
+        Image author = new Image("images/author.png");
         authorView = new ImageView(author);
         authorView.setX(-400);
         authorView.setY(-208);
@@ -87,14 +92,13 @@ public class BombermanGame extends Application {
                     case SPACE:
                         Bomb.putBomb();
                         break;
-//                    case SHIFT:
-//                        running = false;
-//                        break;
                 }
         });
 
         stage.setScene(scene);
         stage.setTitle("Bomberman from Son Tran");
+        Image icon = new Image("images/ttsalpha4.0@0.5x.png");
+        stage.getIcons().add(icon);
         mainStage = stage;
         mainStage.show();
 
@@ -107,7 +111,7 @@ public class BombermanGame extends Application {
                     render();
                     update();
                     time();
-                    Menu.updateMenu();
+                    updateMenu();
                 }
             }
         };
@@ -135,6 +139,16 @@ public class BombermanGame extends Application {
                 a.setCountToRun(0);
             }
         }
+
+        if (enemy.size() == 0 && !isPortal && !wait) {
+            Entity portal = new Portal(_width - 2, _height - 2, Sprite.portal.getFxImage());
+            block.add(portal);
+            if (player.getX() / 32 == portal.getX() / 32 && player.getY() / 32 == portal.getY() / 32) {
+                wait = true;
+                waitingTime = System.currentTimeMillis();
+            }
+        }
+        waitToLevelUp();
     }
 
     public void render() {
