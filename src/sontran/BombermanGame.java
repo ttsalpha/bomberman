@@ -6,26 +6,20 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import sontran.control.Menu;
 import sontran.control.Move;
 import sontran.entities.Entity;
 import sontran.entities.animal.Animal;
-import sontran.entities.animal.Ballom;
 import sontran.entities.animal.Bomber;
-import sontran.entities.animal.Oneal;
-import sontran.entities.block.*;
-import sontran.entities.item.FlameItem;
-import sontran.entities.item.SpeedItem;
+import sontran.entities.block.Bomb;
 import sontran.graphics.Sprite;
 import sontran.utility.SoundManager;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 public class BombermanGame extends Application {
 
@@ -40,8 +34,9 @@ public class BombermanGame extends Application {
     public static int[][] idObjects;
     public static int[][] listKill;
     public static Animal player;
+    public static boolean running;
+    public static ImageView authorView;
 
-    private static final List<Entity> background = new ArrayList<>();
     private GraphicsContext gc;
     private Canvas canvas;
 
@@ -49,7 +44,7 @@ public class BombermanGame extends Application {
     private long lastTime;
     private long soundStart;
 
-    private static Stage mainStage = null;
+    public static Stage mainStage = null;
 
 
     public static void main(String[] args) {
@@ -59,9 +54,18 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        canvas.setTranslateY(32);
         gc = canvas.getGraphicsContext2D();
+        Image author = new Image("images/author2x.png");
+        authorView = new ImageView(author);
+        authorView.setX(-400);
+        authorView.setY(-208);
+        authorView.setScaleX(0.5);
+        authorView.setScaleY(0.5);
         Group root = new Group();
+        Menu.createMenu(root);
         root.getChildren().add(canvas);
+        root.getChildren().add(authorView);
 
         Scene scene = new Scene(root);
 
@@ -99,105 +103,18 @@ public class BombermanGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                render();
-                update();
-                time();
+                if (running) {
+                    render();
+                    update();
+                    time();
+                    Menu.updateMenu();
+                }
             }
         };
         timer.start();
 
-        createMap();
-
         player = new Bomber(1, 1, Sprite.player_right_2.getFxImage());
-        player.setLife(true);
-
-        addCreature();
-    }
-
-
-    public void addCreature() {
-        Animal enemy1 = new Ballom(4, 4, Sprite.ballom_left1.getFxImage());
-        Animal enemy2 = new Ballom(9, 9, Sprite.ballom_left1.getFxImage());
-        Animal enemy3 = new Ballom(22, 6, Sprite.ballom_left1.getFxImage());
-        enemy.add(enemy1);
-        enemy.add(enemy2);
-        enemy.add(enemy3);
-
-        Animal enemy4 = new Oneal(7, 6, Sprite.oneal_right1.getFxImage());
-        Animal enemy5 = new Oneal(13, 8, Sprite.oneal_right1.getFxImage());
-        enemy.add(enemy4);
-        enemy.add(enemy5);
-
-        for (Animal animal : enemy) {
-            animal.setLife(true);
-        }
-    }
-
-    public void createBackground() {
-        for (int i = 0; i < WIDTH; i++)
-            for (int j = 0; j < HEIGHT; j++) {
-                Entity obj = new Grass(i, j, Sprite.grass.getFxImage());
-                background.add(obj);
-            }
-
-    }
-
-    public void createMap() {
-        // levels/Level0.txt
-        // ../level1.txt
-        System.out.println(System.getProperty("user.dir"));
-        final File fileName = new File("res/levels/Level1.txt");
-        try (FileReader inputFile = new FileReader(fileName)) {
-            Scanner sc = new Scanner(inputFile);
-            String line = sc.nextLine();
-
-            StringTokenizer tokens = new StringTokenizer(line);
-            _level = Integer.parseInt(tokens.nextToken());
-            _height = Integer.parseInt(tokens.nextToken());
-            _width = Integer.parseInt(tokens.nextToken());
-
-            while (sc.hasNextLine()) {
-                idObjects = new int[_width][_height];
-                listKill = new int[_width][_height];
-                for (int i = 0; i < _height; ++i) {
-                    String lineTile = sc.nextLine();
-                    StringTokenizer tokenTile = new StringTokenizer(lineTile);
-
-                    for (int j = 0; j < _width; j++) {
-                        int s = Integer.parseInt(tokenTile.nextToken());
-                        idObjects[j][i] = s;
-                        Entity entity;
-                        switch (s) {
-                            case 1:
-                                entity = new Portal(j, i, Sprite.brick.getFxImage());
-                                break;
-                            case 2:
-                                entity = new Wall(j, i, Sprite.wall.getFxImage());
-                                break;
-                            case 3:
-                                entity = new Brick(j, i, Sprite.brick.getFxImage());
-                                break;
-                            case 6:
-                                entity = new SpeedItem(j, i, Sprite.brick.getFxImage());
-                                break;
-                            case 7:
-                                entity = new FlameItem(j, i, Sprite.brick.getFxImage());
-                                break;
-                            default:
-                                entity = new Grass(j, i, Sprite.grass.getFxImage());
-                        }
-                        //0 grass	1 portal	    2 wall
-                        //3 brick	4 bomb/kill	    5 enemy
-                        //6 power up bombs
-                        //7 power up flames
-                        //8 power up speed
-                        block.add(entity);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        player.setLife(false);
     }
 
     public void update() {
@@ -222,21 +139,18 @@ public class BombermanGame extends Application {
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        background.forEach(g -> g.render(gc));
         block.forEach(g -> g.render(gc));
         enemy.forEach(g -> g.render(gc));
         player.render(gc);
     }
 
     public void time() {
-//        final double ns = 1000000000.0 / 60.0; //nanosecond, 60 frames per second
-//        canvas.requestFocus();
         frame++;
 
         long now = System.currentTimeMillis();
         if (now - lastTime > 1000) {
             lastTime = System.currentTimeMillis();
-            mainStage.setTitle("Bomberman from Son Tran | " + frame + " fps");
+            mainStage.setTitle("Bomberman from Son Tran | " + frame + " frame");
             frame = 0;
         }
 

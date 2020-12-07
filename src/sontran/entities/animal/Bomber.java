@@ -6,7 +6,7 @@ import sontran.graphics.Sprite;
 import static sontran.BombermanGame.*;
 
 public class Bomber extends Animal {
-    private static int swapKill = 1;
+    public static int swapKill = 1;
     private static int countKill = 0;
 
     public Bomber(int isMove, int swap, String direction, int count, int countToRun) {
@@ -33,6 +33,9 @@ public class Bomber extends Animal {
                 swapKill = 4;
             } else {
                 animal.setImg(Sprite.transparent.getFxImage());
+                running = false;
+                Image gameOver = new Image("images/gameOver.png");
+                authorView.setImage(gameOver);
             }
         }
     }
