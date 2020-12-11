@@ -11,6 +11,7 @@ import java.util.List;
 
 import static sontran.BombermanGame.*;
 import static sontran.BombermanGame.player;
+import static sontran.control.Menu.bombNumber;
 
 public class Bomb extends Entity {
     private static long timeBomb;
@@ -43,7 +44,8 @@ public class Bomb extends Entity {
     }
 
     public static void putBomb() {
-        if (isBomb == 0) {
+        if (isBomb == 0 && bombNumber > 0) {
+            bombNumber--;
             isBomb = 1;
             timeBomb = System.currentTimeMillis();
             timeTmp = timeBomb;
@@ -249,7 +251,7 @@ public class Bomb extends Entity {
                             isMiddle = true;
                         }
                     }
-                    new SoundManager("sound/bomb_explosion.wav");
+                    new SoundManager("sound/bomb_explosion.wav", "explosion");
                     explosionCenter();
                     timeTmp += 100;
                 }

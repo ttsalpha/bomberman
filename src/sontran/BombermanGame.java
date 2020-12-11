@@ -17,14 +17,14 @@ import sontran.entities.animal.Bomber;
 import sontran.entities.block.Bomb;
 import sontran.entities.block.Portal;
 import sontran.graphics.Sprite;
-import sontran.utility.SoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static sontran.control.Menu.updateMenu;
+import static sontran.control.Menu.*;
 import static sontran.entities.block.Portal.*;
 import static sontran.levels.NextLevel.*;
+import static sontran.utility.SoundManager.updateSound;
 
 public class BombermanGame extends Application {
 
@@ -47,7 +47,6 @@ public class BombermanGame extends Application {
 
     private int frame = 1;
     private long lastTime;
-    private long soundStart;
 
     public static Stage mainStage = null;
 
@@ -149,6 +148,7 @@ public class BombermanGame extends Application {
             }
         }
         waitToLevelUp();
+        updateSound();
     }
 
     public void render() {
@@ -166,13 +166,11 @@ public class BombermanGame extends Application {
             lastTime = System.currentTimeMillis();
             mainStage.setTitle("Bomberman from Son Tran | " + frame + " frame");
             frame = 0;
-        }
 
-        long soundEnd = System.currentTimeMillis();
-        if (player.isLife())
-            if (soundEnd - soundStart > 20000) {
-                new SoundManager("sound/title_screen.wav");
-                soundStart = System.currentTimeMillis();
-            }
+            time.setText("Time: " + timeNumber);
+            timeNumber--;
+            if (timeNumber < 0)
+                player.setLife(false);
+        }
     }
 }

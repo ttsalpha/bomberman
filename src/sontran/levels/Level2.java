@@ -9,8 +9,12 @@ import sontran.graphics.Sprite;
 
 import static sontran.BombermanGame.*;
 import static sontran.BombermanGame.enemy;
+import static sontran.control.Menu.bombNumber;
+import static sontran.control.Menu.timeNumber;
 import static sontran.entities.animal.Bomber.swapKill;
 import static sontran.entities.item.SpeedItem.speed;
+import static sontran.utility.SoundManager.isSoundDied;
+import static sontran.utility.SoundManager.isSoundTitle;
 
 public class Level2 {
     public Level2() {
@@ -22,6 +26,10 @@ public class Level2 {
         player.setX(32);
         player.setY(32);
         speed = 1;
+        isSoundDied = false;
+        isSoundTitle = false;
+        timeNumber = 120;
+        bombNumber = 20;
 
         player.setImg(Sprite.player_right_2.getFxImage());
         Image transparent = new Image("images/transparent.png");

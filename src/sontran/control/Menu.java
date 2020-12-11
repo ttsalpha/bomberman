@@ -14,7 +14,8 @@ import static sontran.BombermanGame.*;
 
 public class Menu {
     private static ImageView statusGame;
-    private static Text level, bomb, life, time;
+    public static Text level, bomb, life, time;
+    public static int bombNumber = 20, lifeNumber = 1, timeNumber = 120;
 
     public static void createMenu(Group root) {
         level = new Text("Level: 1");
@@ -27,7 +28,7 @@ public class Menu {
         life.setFill(Color.WHITE);
         life.setX(416);
         life.setY(20);
-        bomb = new Text("Bombs: 1");
+        bomb = new Text("Bombs: 20");
         bomb.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         bomb.setFill(Color.WHITE);
         bomb.setX(512);
@@ -67,7 +68,8 @@ public class Menu {
 
     public static void updateMenu() {
         level.setText("Level: " + _level);
-        life.setText("Life: " + player.isLife());
+        life.setText("Life: " + lifeNumber);
+        bomb.setText("Bombs: " + bombNumber);
 
         if (player.isLife())
             if (running) {
