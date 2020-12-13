@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import sontran.entities.animal.Animal;
 import sontran.entities.animal.Ballom;
 import sontran.entities.animal.Doll;
-import sontran.entities.animal.Oneal;
 import sontran.graphics.CreateMap;
 import sontran.graphics.Sprite;
 
@@ -22,7 +21,7 @@ public class Level3 {
         enemy.clear();
         block.clear();
         swapKill = 1;
-        new CreateMap("res/levels/Level2.txt");
+        new CreateMap("res/levels/Level3.txt");
         player.setLife(true);
         player.setX(32);
         player.setY(32);

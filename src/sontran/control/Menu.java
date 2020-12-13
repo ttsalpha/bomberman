@@ -55,7 +55,7 @@ public class Menu {
             if (player.isLife()) {
                 running = !running;
             } else {
-                new Level3();
+                new Level1();
                 running = true;
             }
             updateMenu();
