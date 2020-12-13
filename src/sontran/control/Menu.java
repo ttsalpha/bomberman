@@ -9,25 +9,22 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import sontran.levels.Level1;
+import sontran.levels.Level2;
+import sontran.levels.Level3;
 
 import static sontran.BombermanGame.*;
 
 public class Menu {
     private static ImageView statusGame;
-    public static Text level, bomb, life, time;
-    public static int bombNumber = 20, lifeNumber = 1, timeNumber = 120;
+    public static Text level, bomb, time;
+    public static int bombNumber = 20, timeNumber = 120;
 
     public static void createMenu(Group root) {
         level = new Text("Level: 1");
         level.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         level.setFill(Color.WHITE);
-        level.setX(320);
+        level.setX(416);
         level.setY(20);
-        life = new Text("Life: 1");
-        life.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        life.setFill(Color.WHITE);
-        life.setX(416);
-        life.setY(20);
         bomb = new Text("Bombs: 20");
         bomb.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         bomb.setFill(Color.WHITE);
@@ -47,7 +44,7 @@ public class Menu {
         statusGame.setScaleY(0.5);
 
         Pane pane = new Pane();
-        pane.getChildren().addAll(level, life, bomb, time, statusGame);
+        pane.getChildren().addAll(level, bomb, time, statusGame);
         pane.setMinSize(800, 32);
         pane.setMaxSize(800, 480);
         pane.setStyle("-fx-background-color: #353535");
@@ -58,7 +55,7 @@ public class Menu {
             if (player.isLife()) {
                 running = !running;
             } else {
-                new Level1();
+                new Level3();
                 running = true;
             }
             updateMenu();
@@ -68,7 +65,6 @@ public class Menu {
 
     public static void updateMenu() {
         level.setText("Level: " + _level);
-        life.setText("Life: " + lifeNumber);
         bomb.setText("Bombs: " + bombNumber);
 
         if (player.isLife())

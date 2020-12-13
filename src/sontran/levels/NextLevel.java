@@ -22,8 +22,10 @@ public class NextLevel {
                         new Level2();
                         break;
                     case 2:
-                        new Level1();
+                        new Level3();
                         break;
+                    case 3:
+                        new Level1();
                 }
                 wait = false;
             }
