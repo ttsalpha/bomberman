@@ -30,7 +30,7 @@ public class Level2 {
         isSoundDied = false;
         isSoundTitle = false;
         timeNumber = 120;
-        bombNumber = 20;
+        bombNumber = 30;
 
         player.setImg(Sprite.player_right_2.getFxImage());
         Image transparent = new Image("images/transparent.png");

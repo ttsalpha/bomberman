@@ -15,7 +15,7 @@ public class NextLevel {
             Image waitToNext = new Image("images/levelUp.png");
             authorView.setImage(waitToNext);
             long now = System.currentTimeMillis();
-            if (now - waitingTime > 2500) {
+            if (now - waitingTime > 3000) {
                 switch (_level) {
                     case 1:
                         isPortal = false;

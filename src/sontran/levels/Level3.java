@@ -29,7 +29,7 @@ public class Level3 {
         isSoundDied = false;
         isSoundTitle = false;
         timeNumber = 120;
-        bombNumber = 20;
+        bombNumber = 40;
 
         player.setImg(Sprite.player_right_2.getFxImage());
         Image transparent = new Image("images/transparent.png");
@@ -37,15 +37,11 @@ public class Level3 {
 
         Animal enemy1 = new Ballom(5, 5, Sprite.ballom_left1.getFxImage());
         Animal enemy2 = new Ballom(11, 9, Sprite.ballom_left1.getFxImage());
-        Animal enemy3 = new Ballom(21, 7, Sprite.ballom_left1.getFxImage());
-        Animal enemy4 = new Ballom(1, 9, Sprite.ballom_left1.getFxImage());
         enemy.add(enemy1);
         enemy.add(enemy2);
-        enemy.add(enemy3);
-        enemy.add(enemy4);
 
-        Animal enemy5 = new Doll(7, 5, Sprite.doll_left1.getFxImage());
-        enemy.add(enemy5);
+        Animal enemy3 = new Doll(7, 5, Sprite.doll_left1.getFxImage());
+        enemy.add(enemy3);
 
         for (Animal animal : enemy) {
             animal.setLife(true);

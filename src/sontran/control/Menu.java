@@ -8,9 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import sontran.levels.Level1;
-import sontran.levels.Level2;
-import sontran.levels.Level3;
+import sontran.levels.*;
 
 import static sontran.BombermanGame.*;
 
