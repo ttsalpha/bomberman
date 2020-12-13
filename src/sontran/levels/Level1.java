@@ -11,6 +11,7 @@ import static sontran.BombermanGame.*;
 import static sontran.control.Menu.bombNumber;
 import static sontran.control.Menu.timeNumber;
 import static sontran.entities.animal.Bomber.swapKill;
+import static sontran.entities.block.Bomb.isBomb;
 import static sontran.entities.block.Bomb.powerBomb;
 import static sontran.utility.SoundManager.isSoundDied;
 import static sontran.utility.SoundManager.isSoundTitle;
@@ -29,6 +30,7 @@ public class Level1 {
         isSoundTitle = false;
         timeNumber = 120;
         bombNumber = 20;
+        isBomb = 0;
 
         player.setImg(Sprite.player_right_2.getFxImage());
         Image transparent = new Image("images/transparent.png");

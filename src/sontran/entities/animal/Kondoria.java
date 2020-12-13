@@ -36,6 +36,7 @@ public class Kondoria extends Animal {
                 animal.setImg(Sprite.player_dead3.getFxImage());
                 swapKill = 3;
             } else {
+                animal.setLife(false);
                 enemy.remove(animal);
                 swapKill = 1;
             }

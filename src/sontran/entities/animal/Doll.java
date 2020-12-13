@@ -65,12 +65,8 @@ public class Doll extends Animal {
                         countBlock++;
                     }
 
-            aStar.setBlocks(blocksArray, countBlock);
+            aStar.setBlocks(blocksArray, countBlock - 1);
             List<Node> path = aStar.findPath();
-//            for (Node node : path) {
-//                System.out.println(node);
-//            }
-            System.out.print(path.get(1).getCol() + " " + path.get(1).getRow());
             int nextY = path.get(1).getRow();
             int nextX = path.get(1).getCol();
 

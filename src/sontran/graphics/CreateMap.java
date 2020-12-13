@@ -59,11 +59,6 @@ public class CreateMap {
                             default:
                                 entity = new Grass(j, i, Sprite.grass.getFxImage());
                         }
-                        //0 grass	1 portal	    2 wall
-                        //3 brick	4 bomb/kill	    5 enemy
-                        //6 power up bombs
-                        //7 power up flames
-                        //8 power up speed
                         idObjects[j][i] = s;
                         block.add(entity);
                     }
