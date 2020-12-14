@@ -28,16 +28,20 @@ import static sontran.utility.SoundManager.updateSound;
 
 public class BombermanGame extends Application {
 
+    /**
+     * The default size of the window
+     * H: 480px W: 800px
+     */
     public static final int WIDTH = 25;
     public static final int HEIGHT = 15;
     public static int _width = 0;
     public static int _height = 0;
     public static int _level = 1;
 
-    public static final List<Entity> block = new ArrayList<>();
-    public static List<Animal> enemy = new ArrayList<>();
-    public static int[][] idObjects;
-    public static int[][] listKill;
+    public static final List<Entity> block = new ArrayList<>(); //Contains fixed entities
+    public static List<Animal> enemy = new ArrayList<>();       //Contains enemy entities
+    public static int[][] idObjects;    //Two-dimensional array is used to test paths
+    public static int[][] listKill;     //Array containing dead positions
     public static Animal player;
     public static boolean running;
     public static ImageView authorView;
