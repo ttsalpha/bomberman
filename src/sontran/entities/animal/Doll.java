@@ -30,7 +30,7 @@ public class Doll extends Animal {
     }
 
     private void killDoll(Animal animal) {
-        if (countKill % 32 == 0) {
+        if (countKill % 16 == 0) {
             if (swapKill == 1) {
                 animal.setImg(Sprite.doll_dead.getFxImage());
                 swapKill = 2;
@@ -38,6 +38,7 @@ public class Doll extends Animal {
                 animal.setImg(Sprite.player_dead3.getFxImage());
                 swapKill = 3;
             } else {
+                animal.setLife(false);
                 enemy.remove(animal);
                 swapKill = 1;
             }
@@ -65,19 +66,21 @@ public class Doll extends Animal {
                         countBlock++;
                     }
 
-            aStar.setBlocks(blocksArray, countBlock - 1);
+            aStar.setBlocks(blocksArray, countBlock);
             List<Node> path = aStar.findPath();
-            int nextY = path.get(1).getRow();
-            int nextX = path.get(1).getCol();
+            if (path.size() != 0) {
+                int nextY = path.get(1).getRow();
+                int nextX = path.get(1).getCol();
 
-            if (this.y / 32 > nextY)
-                Move.up(this);
-            if (this.y / 32 < nextY)
-                Move.down(this);
-            if (this.x / 32 > nextX)
-                Move.left(this);
-            if (this.x / 32 < nextX)
-                Move.right(this);
+                if (this.y / 32 > nextY)
+                    Move.up(this);
+                if (this.y / 32 < nextY)
+                    Move.down(this);
+                if (this.x / 32 > nextX)
+                    Move.left(this);
+                if (this.x / 32 < nextX)
+                    Move.right(this);
+            }
         }
     }
 

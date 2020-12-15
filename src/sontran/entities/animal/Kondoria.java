@@ -28,7 +28,7 @@ public class Kondoria extends Animal {
     }
 
     private void killKondoria(Animal animal) {
-        if (countKill % 32 == 0) {
+        if (countKill % 16 == 0) {
             if (swapKill == 1) {
                 animal.setImg(Sprite.kondoria_dead.getFxImage());
                 swapKill = 2;

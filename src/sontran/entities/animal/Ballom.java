@@ -32,6 +32,7 @@ public class Ballom extends Animal {
                 animal.setImg(Sprite.mob_dead3.getFxImage());
                 swapKill = 4;
             } else {
+                animal.setLife(false);
                 enemy.remove(animal);
                 swapKill = 1;
             }

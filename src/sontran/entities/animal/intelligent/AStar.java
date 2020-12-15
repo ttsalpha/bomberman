@@ -3,29 +3,19 @@ package sontran.entities.animal.intelligent;
 import java.util.*;
 
 public class AStar {
-    private static final int HV_COST = 1;
-    private static final int DIAGONAL_COST = 1;
-    private int hvCost;
-    private int diagonalCost;
     private Node[][] searchArea;
     private PriorityQueue<Node> openList;
     private Set<Node> closedSet;
     private Node initialNode;
     private Node finalNode;
 
-    public AStar(int rows, int cols, Node initialNode, Node finalNode, int hvCost, int diagonalCost) {
-        this.hvCost = hvCost;
-        this.diagonalCost = diagonalCost;
+    public AStar(int rows, int cols, Node initialNode, Node finalNode) {
         setInitialNode(initialNode);
         setFinalNode(finalNode);
         this.searchArea = new Node[rows][cols];
         this.openList = new PriorityQueue<>(Comparator.comparingInt(Node::getF));
         setNodes();
         this.closedSet = new HashSet<>();
-    }
-
-    public AStar(int rows, int cols, Node initialNode, Node finalNode) {
-        this(rows, cols, initialNode, finalNode, HV_COST, DIAGONAL_COST);
     }
 
     private void setNodes() {
@@ -51,6 +41,7 @@ public class AStar {
         while (!isEmpty(openList)) {
             Node currentNode = openList.poll();
             closedSet.add(currentNode);
+            assert currentNode != null;
             if (isFinalNode(currentNode)) {
                 return getPath(currentNode);
             } else {
@@ -83,24 +74,23 @@ public class AStar {
         int lowerRow = row + 1;
         if (lowerRow < getSearchArea().length) {
             if (col - 1 >= 0) {
-                checkNode(currentNode, col - 1, lowerRow, getDiagonalCost());
+                checkNode(currentNode, col - 1, lowerRow);
             }
             if (col + 1 < getSearchArea()[0].length) {
-                checkNode(currentNode, col + 1, lowerRow, getDiagonalCost());
+                checkNode(currentNode, col + 1, lowerRow);
             }
-            checkNode(currentNode, col, lowerRow, getHvCost());
+            checkNode(currentNode, col, lowerRow);
         }
     }
 
     private void addAdjacentMiddleRow(Node currentNode) {
         int row = currentNode.getRow();
         int col = currentNode.getCol();
-        int middleRow = row;
         if (col - 1 >= 0) {
-            checkNode(currentNode, col - 1, middleRow, getHvCost());
+            checkNode(currentNode, col - 1, row);
         }
         if (col + 1 < getSearchArea()[0].length) {
-            checkNode(currentNode, col + 1, middleRow, getHvCost());
+            checkNode(currentNode, col + 1, row);
         }
     }
 
@@ -110,23 +100,23 @@ public class AStar {
         int upperRow = row - 1;
         if (upperRow >= 0) {
             if (col - 1 >= 0) {
-                checkNode(currentNode, col - 1, upperRow, getDiagonalCost());
+                checkNode(currentNode, col - 1, upperRow);
             }
             if (col + 1 < getSearchArea()[0].length) {
-                checkNode(currentNode, col + 1, upperRow, getDiagonalCost());
+                checkNode(currentNode, col + 1, upperRow);
             }
-            checkNode(currentNode, col, upperRow, getHvCost());
+            checkNode(currentNode, col, upperRow);
         }
     }
 
-    private void checkNode(Node currentNode, int col, int row, int cost) {
+    private void checkNode(Node currentNode, int col, int row) {
         Node adjacentNode = getSearchArea()[row][col];
         if (!adjacentNode.isBlock() && !getClosedSet().contains(adjacentNode)) {
             if (!getOpenList().contains(adjacentNode)) {
-                adjacentNode.setNodeData(currentNode, cost);
+                adjacentNode.setNodeData(currentNode);
                 getOpenList().add(adjacentNode);
             } else {
-                boolean changed = adjacentNode.checkBetterPath(currentNode, cost);
+                boolean changed = adjacentNode.checkBetterPath(currentNode);
                 if (changed) {
                     getOpenList().remove(adjacentNode);
                     getOpenList().add(adjacentNode);
@@ -185,21 +175,5 @@ public class AStar {
 
     public void setClosedSet(Set<Node> closedSet) {
         this.closedSet = closedSet;
-    }
-
-    public int getHvCost() {
-        return hvCost;
-    }
-
-    public void setHvCost(int hvCost) {
-        this.hvCost = hvCost;
-    }
-
-    private int getDiagonalCost() {
-        return diagonalCost;
-    }
-
-    private void setDiagonalCost(int diagonalCost) {
-        this.diagonalCost = diagonalCost;
     }
 }

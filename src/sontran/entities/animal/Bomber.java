@@ -60,10 +60,22 @@ public class Bomber extends Animal {
         }
     }
 
+    private void checkEnemy2() {    //easy level
+        for (Animal animal : enemy)
+            if (player.getX() == animal.getX() && player.getY() == animal.getY()
+                    || player.getX() == animal.getX() && player.getY() == animal.getY() - 32
+                    || player.getX() == animal.getX() && player.getY() == animal.getY() + 32
+                    || player.getY() == animal.getY() && player.getX() == animal.getX() - 32
+                    || player.getY() == animal.getY() && player.getX() == animal.getX() + 32) {
+                player.setLife(false);
+                break;
+            }
+    }
+
     @Override
     public void update() {
         checkBombs();
-        checkEnemy();
+        checkEnemy2();
         countKill++;
         if (!player.life)
             killBomber(player);

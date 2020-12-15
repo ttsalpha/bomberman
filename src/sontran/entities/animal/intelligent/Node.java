@@ -19,17 +19,17 @@ public class Node {
         this.h = Math.abs(finalNode.getRow() - getRow()) + Math.abs(finalNode.getCol() - getCol());
     }
 
-    public void setNodeData(Node currentNode, int cost) {
-        int gCost = currentNode.getG() + cost;
+    public void setNodeData(Node currentNode) {
+        int gCost = currentNode.getG();
         setParent(currentNode);
         setG(gCost);
         calculateFinalCost();
     }
 
-    public boolean checkBetterPath(Node currentNode, int cost) {
-        int gCost = currentNode.getG() + cost;
+    public boolean checkBetterPath(Node currentNode) {
+        int gCost = currentNode.getG();
         if (gCost < getG()) {
-            setNodeData(currentNode, cost);
+            setNodeData(currentNode);
             return true;
         }
         return false;

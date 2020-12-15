@@ -26,7 +26,7 @@ public class Oneal extends Animal {
     }
 
     private void killOneal(Animal animal) {
-        if (countKill % 32 == 0) {
+        if (countKill % 16 == 0) {
             if (swapKill == 1) {
                 animal.setImg(Sprite.oneal_dead.getFxImage());
                 swapKill = 2;

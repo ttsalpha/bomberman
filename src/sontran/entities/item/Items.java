@@ -17,6 +17,14 @@ public abstract class Items extends Entity {
     public Items(boolean received) {
     }
 
+    public boolean isReceived() {
+        return received;
+    }
+
+    public void setReceived(boolean received) {
+        this.received = received;
+    }
+
     @Override
     public void update() {
 
