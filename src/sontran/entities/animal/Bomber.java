@@ -61,21 +61,37 @@ public class Bomber extends Animal {
     }
 
     private void checkEnemy2() {    //easy level
+        int ax = player.getX();
+        int ay = player.getY();
         for (Animal animal : enemy)
-            if (player.getX() == animal.getX() && player.getY() == animal.getY()
-                    || player.getX() == animal.getX() && player.getY() == animal.getY() - 32
-                    || player.getX() == animal.getX() && player.getY() == animal.getY() + 32
-                    || player.getY() == animal.getY() && player.getX() == animal.getX() - 32
-                    || player.getY() == animal.getY() && player.getX() == animal.getX() + 32) {
-                player.setLife(false);
+            if (ax == animal.getX() && ay == animal.getY()
+                    || ax == animal.getX() && ay == animal.getY() - 32
+                    || ax == animal.getX() && ay == animal.getY() + 32
+                    || ay == animal.getY() && ax == animal.getX() - 32
+                    || ay == animal.getY() && ax == animal.getX() + 32) {
+                player.life = false;
                 break;
             }
+    }
+
+    private void checkEnemy3() {
+        int ax = player.getX();
+        int ay = player.getY();
+        for (Animal animal : enemy) {
+            int bx = animal.getX();
+            int by = animal.getY();
+            if (ax == bx && by - 32 <= ay && by + 32 >= ay
+                    || ay == by && bx - 32 <= ax && bx + 32 >= ax) {
+                player.life = false;
+                break;
+            }
+        }
     }
 
     @Override
     public void update() {
         checkBombs();
-        checkEnemy2();
+        checkEnemy3();
         countKill++;
         if (!player.life)
             killBomber(player);
